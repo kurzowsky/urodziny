@@ -21,7 +21,6 @@
             height: 100vh;
             animation: gradientShift 6s infinite alternate;
             flex-direction: column;
-            box-sizing: border-box;
         }
 
         /* Przechodzące tło */
@@ -44,7 +43,7 @@
             color: #6a1b9a;
             animation: slideInFromTop 1s ease-out;
             margin-bottom: 20px;
-            word-wrap: break-word;  /* Zabezpieczenie przed wychodzeniem tekstu poza ekran */
+            display: inline-block;
         }
 
         @keyframes slideInFromTop {
@@ -66,14 +65,31 @@
             text-align: center;
             display: inline-block;
             overflow: hidden;
-            max-width: 90%;  /* Ograniczenie szerokości */
-            word-wrap: break-word; /* Zabezpieczenie przed wychodzeniem tekstu poza ekran */
+            white-space: normal;
+            word-wrap: break-word;
+            width: auto;
+            max-width: 100%;
+            transform-origin: top center;
+            transform: scaleY(0);
+            opacity: 0;
+            animation: openCard 2s forwards;
+        }
+
+        /* Animacja otwierania kartki */
+        @keyframes openCard {
+            0% {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
         }
 
         .greeting-line {
             display: block;
-            white-space: nowrap;
-            opacity: 0; /* Początkowo ukryte */
+            opacity: 0;
             animation: typing 2s ease forwards, blinkCursor 0.6s steps(2, start) infinite;
         }
 
@@ -83,7 +99,7 @@
                 opacity: 0;
             }
             100% {
-                opacity: 1; /* Stopniowe pojawianie się tekstu */
+                opacity: 1;
             }
         }
 
@@ -109,7 +125,6 @@
             margin-top: 30px;
             transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
             box-shadow: 0px 5px 15px rgba(106, 27, 154, 0.3);
-            max-width: 80%;  /* Ograniczenie szerokości przycisku */
         }
 
         .button:hover {
@@ -124,7 +139,7 @@
             box-shadow: 0 0 15px rgba(106, 27, 154, 0.5);
         }
 
-        /* Responsywność: mniejsze czcionki na telefonie */
+        /* Responsywność */
         @media (max-width: 600px) {
             .header {
                 font-size: 2.5em;
@@ -138,11 +153,9 @@
             .button {
                 font-size: 1em;
                 padding: 12px 25px;
-                max-width: 90%;  /* Przycisk również z mniejszą szerokością */
             }
         }
 
-        /* Responsywność: jeszcze mniejsze czcionki na bardzo małych ekranach */
         @media (max-width: 400px) {
             .header {
                 font-size: 2em;
@@ -156,7 +169,6 @@
             .button {
                 font-size: 0.9em;
                 padding: 10px 20px;
-                max-width: 95%;  /* Dodatkowe dopasowanie szerokości przycisku */
             }
         }
     </style>
@@ -175,7 +187,11 @@
         function toggleWish() {
             const greetingElement = document.getElementById('greeting');
             const buttonElement = document.querySelector('.button');
+            const headerWidth = document.querySelector('.header').offsetWidth; // Pobieramy szerokość nagłówka
             greetingElement.innerHTML = ""; // Czyszczenie poprzednich życzeń
+
+            // Ustawiamy szerokość życzeń na szerokość nagłówka
+            greetingElement.style.width = headerWidth + 'px'; 
 
             if (greetingElement.style.display === "none" || greetingElement.style.display === "") {
                 // Ukryj przycisk podczas wyświetlania życzeń
