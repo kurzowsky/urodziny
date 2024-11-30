@@ -38,7 +38,7 @@
 
         /* Animacja nagłówka */
         .header {
-            font-size: 3.5em;
+            font-size: 3em;
             font-weight: 600;
             color: #6a1b9a;
             animation: slideInFromTop 1s ease-out;
@@ -58,7 +58,7 @@
 
         /* Styl dla tekstu życzeń */
         #greeting {
-            font-size: 2em;
+            font-size: 1.5em;
             margin-top: 30px;
             color: #6a1b9a;
             text-align: center;
@@ -118,14 +118,48 @@
             transform: scale(0.95);
             box-shadow: 0 0 15px rgba(106, 27, 154, 0.5);
         }
+
+        /* Responsywność: mniejsze czcionki na telefonie */
+        @media (max-width: 600px) {
+            .header {
+                font-size: 2.5em;
+            }
+
+            #greeting {
+                font-size: 1.2em;
+                margin-top: 20px;
+            }
+
+            .button {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+        }
+
+        /* Responsywność: jeszcze mniejsze czcionki na bardzo małych ekranach */
+        @media (max-width: 400px) {
+            .header {
+                font-size: 2em;
+            }
+
+            #greeting {
+                font-size: 1em;
+                margin-top: 10px;
+            }
+
+            .button {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">🎉 Sto lat! 🎉</div>
+    <div class="header">🎉 Urodzinowa Laurka 🎉</div>
 
     <div class="wish">
-        <button class="button" onclick="toggleWish()">Życzenia</button>
+        <button class="button" onclick="toggleWish()">Pokaż/Ukryj życzenia</button>
     </div>
 
     <div id="greeting" class="wish"></div>
@@ -142,7 +176,7 @@
                 
                 greetingElement.style.display = "inline-block";
 
-                const name = "...";
+                const name = "Weronika";
                 const greetingLines = [
                     "Wszystkiego najlepszego z okazji urodzin, " + name + "!",
                     "Życzę Ci dni pełnych radości, miłości oraz spełnienia wszystkich marzeń.",
