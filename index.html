@@ -21,6 +21,7 @@
             height: 100vh;
             animation: gradientShift 6s infinite alternate;
             flex-direction: column;
+            box-sizing: border-box;
         }
 
         /* Przechodzące tło */
@@ -43,6 +44,7 @@
             color: #6a1b9a;
             animation: slideInFromTop 1s ease-out;
             margin-bottom: 20px;
+            word-wrap: break-word;  /* Zabezpieczenie przed wychodzeniem tekstu poza ekran */
         }
 
         @keyframes slideInFromTop {
@@ -64,6 +66,8 @@
             text-align: center;
             display: inline-block;
             overflow: hidden;
+            max-width: 90%;  /* Ograniczenie szerokości */
+            word-wrap: break-word; /* Zabezpieczenie przed wychodzeniem tekstu poza ekran */
         }
 
         .greeting-line {
@@ -105,6 +109,7 @@
             margin-top: 30px;
             transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
             box-shadow: 0px 5px 15px rgba(106, 27, 154, 0.3);
+            max-width: 80%;  /* Ograniczenie szerokości przycisku */
         }
 
         .button:hover {
@@ -133,6 +138,7 @@
             .button {
                 font-size: 1em;
                 padding: 12px 25px;
+                max-width: 90%;  /* Przycisk również z mniejszą szerokością */
             }
         }
 
@@ -150,16 +156,17 @@
             .button {
                 font-size: 0.9em;
                 padding: 10px 20px;
+                max-width: 95%;  /* Dodatkowe dopasowanie szerokości przycisku */
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">🎉 Urodzinowa Laurka 🎉</div>
+    <div class="header">🎉 Sto lat! 🎉</div>
 
     <div class="wish">
-        <button class="button" onclick="toggleWish()">Pokaż/Ukryj życzenia</button>
+        <button class="button" onclick="toggleWish()">Życzenia</button>
     </div>
 
     <div id="greeting" class="wish"></div>
@@ -176,7 +183,7 @@
                 
                 greetingElement.style.display = "inline-block";
 
-                const name = "Weronika";
+                const name = "...";
                 const greetingLines = [
                     "Wszystkiego najlepszego z okazji urodzin, " + name + "!",
                     "Życzę Ci dni pełnych radości, miłości oraz spełnienia wszystkich marzeń.",
