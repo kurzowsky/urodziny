@@ -39,10 +39,22 @@
 
         /* Nagłówek */
         .header {
-            font-size: 3em;
+            font-size: 3.2em;
             font-weight: 600;
             color: #6a1b9a;
             margin-bottom: 20px;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        /* Animacja glow dla nagłówka */
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+            }
+            100% {
+                text-shadow: 0 0 20px #ff8c00, 0 0 30px #ff8c00, 0 0 40px #ff8c00, 0 0 50px #ff8c00;
+            }
         }
 
         /* Styl dla tekstu życzeń */
@@ -51,9 +63,25 @@
             margin-top: 30px;
             color: #6a1b9a;
             text-align: center;
-            display: none; /* Domyślnie ukryty */
+            display: none;
             word-wrap: break-word;
             overflow: hidden;
+            line-height: 1.8;
+            padding: 10px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeUp 1s forwards;
+        }
+
+        /* Animacja dla życzeń */
+        @keyframes fadeUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .greeting-line {
@@ -62,13 +90,13 @@
             animation: fadeIn 1.5s ease forwards;
         }
 
-        /* Animacja tekstu */
+        /* Animacja pojawiania się tekstu */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* Styl przycisku (ikony prezentu) */
+        /* Styl przycisku (ikona prezentu) */
         .icon-button {
             background-color: transparent;
             border: none;
@@ -77,7 +105,7 @@
             margin-top: 20px;
             outline: none;
             transition: transform 0.3s ease;
-            animation: pulse 2s infinite; /* Animacja powiększania i zmniejszania */
+            animation: pulse 2s infinite;
         }
 
         /* Animacja powiększania i zmniejszania przycisku */
@@ -86,7 +114,7 @@
                 transform: scale(1);
             }
             50% {
-                transform: scale(1.1); /* Powiększenie */
+                transform: scale(1.1); 
             }
             100% {
                 transform: scale(1);
@@ -164,29 +192,26 @@
             const buttonElement = document.getElementById('wishButton');
 
             if (greetingElement.style.display === "block") {
-                // Jeśli życzenia są już widoczne, ukrywamy je
                 greetingElement.style.display = "none";
                 buttonElement.style.display = "inline-block"; // Ponownie pokazujemy przycisk
             } else {
-                // Ukrycie przycisku przed wyświetleniem życzeń
                 buttonElement.style.display = "none";
 
-                // Ustawienie szerokości życzeń na szerokość nagłówka
                 const headerElement = document.querySelector('.header');
                 greetingElement.style.width = `${headerElement.offsetWidth}px`;
                 greetingElement.innerHTML = ""; // Czyszczenie poprzednich życzeń
-
+                
+                const name = "...";
                 const greetingLines = [
-                    "Wszystkiego najlepszego z okazji urodzin!",
+                    "Wszystkiego najlepszego z okazji urodzin, " + name + "!",
                     "Życzę Ci dni pełnych radości, miłości oraz spełnienia wszystkich marzeń.",
                     "Niech każdy dzień przynosi Ci coś pięknego, a szczęście nigdy Cię nie opuszcza.",
                     "Zdrowia, sukcesów i dużo uśmiechu na co dzień!",
-                    "🎉🎁 KUBA 🎁🎉"
+                    "🎁 Kuba 🎁"
                 ];
 
                 let delay = 0;
 
-                // Wyświetlanie życzeń linia po linii
                 greetingLines.forEach((line) => {
                     setTimeout(() => {
                         const lineElement = document.createElement("div");
@@ -194,16 +219,14 @@
                         lineElement.textContent = line;
                         greetingElement.appendChild(lineElement);
                     }, delay);
-                    delay += 2000; // Opóźnienie między liniami
+                    delay += 2000;
                 });
 
-                // Pokazanie sekcji życzeń
                 greetingElement.style.display = "block";
 
-                // Pokazanie przycisku po zakończeniu animacji
                 setTimeout(() => {
-                    buttonElement.style.display = "inline-block"; // Ponowne wyświetlenie przycisku
-                }, delay + 2000); // Po zakończeniu ostatniej linii życzeń
+                    buttonElement.style.display = "inline-block";
+                }, delay + 2000);
             }
         }
     </script>
