@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urodzinowa Laurka</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         /* Podstawowe style */
         body {
@@ -21,6 +22,14 @@
             height: 100vh;
             animation: gradientShift 6s infinite alternate;
             flex-direction: column;
+        }
+
+        /* Tło cząsteczek */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         /* Przechodzące tło */
@@ -138,43 +147,14 @@
             transform: scale(0.95);
             box-shadow: 0 0 15px rgba(106, 27, 154, 0.5);
         }
-
-        /* Responsywność */
-        @media (max-width: 600px) {
-            .header {
-                font-size: 2.5em;
-            }
-
-            #greeting {
-                font-size: 1.2em;
-                margin-top: 20px;
-            }
-
-            .button {
-                font-size: 1em;
-                padding: 12px 25px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .header {
-                font-size: 2em;
-            }
-
-            #greeting {
-                font-size: 1em;
-                margin-top: 10px;
-            }
-
-            .button {
-                font-size: 0.9em;
-                padding: 10px 20px;
-            }
-        }
     </style>
 </head>
 <body>
 
+    <!-- Efekt cząsteczek -->
+    <div id="particles-js"></div>
+
+    <!-- Treść strony -->
     <div class="header">🎉 Sto lat! 🎉</div>
 
     <div class="wish">
@@ -184,19 +164,68 @@
     <div id="greeting" class="wish"></div>
 
     <script>
+        // Inicjalizacja cząsteczek
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 80,
+                    density: { enable: true, value_area: 800 }
+                },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: { enable: false }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: { enable: false }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out"
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Funkcja wyświetlająca życzenia
         function toggleWish() {
             const greetingElement = document.getElementById('greeting');
             const buttonElement = document.querySelector('.button');
-            const headerWidth = document.querySelector('.header').offsetWidth; // Pobieramy szerokość nagłówka
+            const headerWidth = document.querySelector('.header').offsetWidth;
             greetingElement.innerHTML = ""; // Czyszczenie poprzednich życzeń
 
             // Ustawiamy szerokość życzeń na szerokość nagłówka
-            greetingElement.style.width = headerWidth + 'px'; 
+            greetingElement.style.width = headerWidth + 'px';
 
             if (greetingElement.style.display === "none" || greetingElement.style.display === "") {
-                // Ukryj przycisk podczas wyświetlania życzeń
-                buttonElement.style.display = "none";
-                
+                buttonElement.style.display = "none"; // Ukryj przycisk podczas wyświetlania życzeń
                 greetingElement.style.display = "inline-block";
 
                 const name = "...";
@@ -210,8 +239,7 @@
 
                 let delay = 0;
 
-                // Wyświetlanie tekstu linijka po linijce
-                greetingLines.forEach((line, index) => {
+                greetingLines.forEach((line) => {
                     setTimeout(() => {
                         const lineElement = document.createElement("div");
                         lineElement.classList.add("greeting-line");
@@ -221,13 +249,12 @@
                     delay += 2500; // Opóźnienie między liniami
                 });
 
-                // Po zakończeniu pokazywania życzeń, pokazujemy przycisk z powrotem
                 setTimeout(() => {
-                    buttonElement.style.display = "inline-block";
-                }, delay); // Przycisk pojawi się po wyświetleniu wszystkich linii
+                    buttonElement.style.display = "inline-block"; // Przywrócenie przycisku
+                }, delay);
             } else {
                 greetingElement.style.display = "none";
-                buttonElement.style.display = "inline-block"; // Przywrócenie przycisku, jeśli życzenia są ukryte
+                buttonElement.style.display = "inline-block"; // Przywrócenie przycisku
             }
         }
     </script>
