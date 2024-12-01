@@ -68,26 +68,44 @@
             to { opacity: 1; }
         }
 
-        /* Przycisk */
-        .button {
-            padding: 15px 30px;
-            font-size: 1.2em;
-            background-color: #6a1b9a;
-            color: white;
+        /* Styl przycisku (ikony prezentu) */
+        .icon-button {
+            background-color: transparent;
             border: none;
-            border-radius: 30px;
             cursor: pointer;
-            margin-top: 30px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            padding: 0;
+            margin-top: 20px;
+            outline: none;
+            transition: transform 0.3s ease;
+            animation: pulse 2s infinite; /* Animacja powiększania i zmniejszania */
         }
 
-        .button:hover {
-            background-color: #8e24aa;
-            transform: scale(1.1);
+        /* Animacja powiększania i zmniejszania przycisku */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1); /* Powiększenie */
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
-        .button:active {
-            transform: scale(0.95);
+        .icon-button:hover {
+            transform: scale(1.2);
+        }
+
+        .icon-button svg {
+            width: 80px;
+            height: 80px;
+            fill: #6a1b9a;
+            transition: fill 0.3s ease;
+        }
+
+        .icon-button:hover svg {
+            fill: #8e24aa;
         }
     </style>
 </head>
@@ -100,9 +118,15 @@
     <main>
         <div class="header">🎉 Sto lat! 🎉</div>
 
-        <div class="wish">
-            <button class="button" onclick="toggleWish()">Życzenia</button>
-        </div>
+        <!-- Przycisk w formie ikony prezentu -->
+        <button class="icon-button" onclick="toggleWish()" id="wishButton">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                <path d="M60,12h-8c0-6.633-5.371-12-12-12c-3.086,0-5.875,1.195-8,3.109C29.875,1.195,27.086,0,24,0
+                c-6.629,0-12,5.367-12,12H4c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4v24c0,2.211,1.789,4,4,4h48c2.211,0,4-1.789,4-4V36
+                c2.211,0,4-1.789,4-4V16C64,13.789,62.211,12,60,12z M40,8c2.211,0,4,1.789,4,4h-8C36,9.789,37.789,8,40,8z M24,8
+                c2.211,0,4,1.789,4,4h-8C20,9.789,21.789,8,24,8z M28,56H12V36h16V56z M28,28H8v-8h20V28z M52,56H36V36h16V56z M56,28H36v-8h20V28z"/>
+            </svg>
+        </button>
 
         <div id="greeting"></div>
     </main>
@@ -134,47 +158,53 @@
             retina_detect: true
         });
 
-        // Funkcja wyświetlająca życzenia
+        // Funkcja wyświetlająca/ukrywająca życzenia
         function toggleWish() {
             const greetingElement = document.getElementById('greeting');
-            const buttonElement = document.querySelector('.button');
-            const headerElement = document.querySelector('.header');
+            const buttonElement = document.getElementById('wishButton');
 
-            // Ustawienie szerokości życzeń na szerokość nagłówka
-            greetingElement.style.width = `${headerElement.offsetWidth}px`;
-            greetingElement.innerHTML = ""; // Czyszczenie poprzednich życzeń
+            if (greetingElement.style.display === "block") {
+                // Jeśli życzenia są już widoczne, ukrywamy je
+                greetingElement.style.display = "none";
+                buttonElement.style.display = "inline-block"; // Ponownie pokazujemy przycisk
+            } else {
+                // Ukrycie przycisku przed wyświetleniem życzeń
+                buttonElement.style.display = "none";
 
-            const greetingLines = [
-                "Wszystkiego najlepszego z okazji urodzin!",
-                "Życzę Ci dni pełnych radości, miłości oraz spełnienia wszystkich marzeń.",
-                "Niech każdy dzień przynosi Ci coś pięknego, a szczęście nigdy Cię nie opuszcza.",
-                "Zdrowia, sukcesów i dużo uśmiechu na co dzień!",
-                "🎉🎁 KUBA 🎁🎉"
-            ];
+                // Ustawienie szerokości życzeń na szerokość nagłówka
+                const headerElement = document.querySelector('.header');
+                greetingElement.style.width = `${headerElement.offsetWidth}px`;
+                greetingElement.innerHTML = ""; // Czyszczenie poprzednich życzeń
 
-            let delay = 0;
+                const greetingLines = [
+                    "Wszystkiego najlepszego z okazji urodzin!",
+                    "Życzę Ci dni pełnych radości, miłości oraz spełnienia wszystkich marzeń.",
+                    "Niech każdy dzień przynosi Ci coś pięknego, a szczęście nigdy Cię nie opuszcza.",
+                    "Zdrowia, sukcesów i dużo uśmiechu na co dzień!",
+                    "🎉🎁 KUBA 🎁🎉"
+                ];
 
-            // Wyświetlanie życzeń linia po linii
-            greetingLines.forEach((line) => {
+                let delay = 0;
+
+                // Wyświetlanie życzeń linia po linii
+                greetingLines.forEach((line) => {
+                    setTimeout(() => {
+                        const lineElement = document.createElement("div");
+                        lineElement.classList.add("greeting-line");
+                        lineElement.textContent = line;
+                        greetingElement.appendChild(lineElement);
+                    }, delay);
+                    delay += 2000; // Opóźnienie między liniami
+                });
+
+                // Pokazanie sekcji życzeń
+                greetingElement.style.display = "block";
+
+                // Pokazanie przycisku po zakończeniu animacji
                 setTimeout(() => {
-                    const lineElement = document.createElement("div");
-                    lineElement.classList.add("greeting-line");
-                    lineElement.textContent = line;
-                    greetingElement.appendChild(lineElement);
-                }, delay);
-                delay += 2000; // Opóźnienie między liniami
-            });
-
-            // Pokazanie sekcji życzeń
-            greetingElement.style.display = "block";
-
-            // Ukrycie przycisku na czas wyświetlania życzeń
-            buttonElement.style.display = "none";
-
-            // Przywrócenie przycisku po zakończeniu animacji
-            setTimeout(() => {
-                buttonElement.style.display = "inline-block";
-            }, delay);
+                    buttonElement.style.display = "inline-block"; // Ponowne wyświetlenie przycisku
+                }, delay + 2000); // Po zakończeniu ostatniej linii życzeń
+            }
         }
     </script>
 
